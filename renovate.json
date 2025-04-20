@@ -1,0 +1,25 @@
+{
+    "extends": [
+        "config:recommended"
+    ],
+    "prConcurrentLimit": 1,
+    "prHourlyLimit": 0,
+    "rebaseWhen": "behind-base-branch",
+    "automerge": true,
+    "platformAutomerge": true,
+    "rangeStrategy": "pin",
+    "customManagers": [
+        {
+            "customType": "regex",
+            "fileMatch": [
+                "^metabase.nomad$"
+            ],
+            "matchStrings": [
+                "\"metabase\\/metabase:(?<currentValue>.+)\""
+            ],
+            "depNameTemplate": "metabase/metabase",
+            "datasourceTemplate": "docker",
+            "versioningTemplate": "loose"
+        }
+    ]
+}

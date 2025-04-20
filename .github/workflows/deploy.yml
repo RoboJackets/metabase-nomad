@@ -1,0 +1,44 @@
+name: Deploy
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Production
+    environment:
+      name: production
+      url: https://metabase.bcdc.robojackets.net
+    permissions:
+      id-token: write
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Nomad
+        uses: lucasmelin/setup-nomad@v2.0.0
+
+      - name: Exchange GitHub JWT for Nomad token
+        id: get_token
+        uses: RoboJackets/nomad-jwt-auth@main
+        with:
+          url: https://nomad.bcdc.robojackets.net
+          jwtGithubAudience: https://nomad.bcdc.robojackets.net
+          methodName: GitHubActions
+
+      - name: Run Nomad job
+        env:
+          NOMAD_ADDR: https://nomad.bcdc.robojackets.net
+        run: |
+          nomad run metabase.nomad
+
+      - name: Wait for service to become healthy
+        timeout-minutes: 2
+        run: |
+          until curl --silent --show-error --fail https://metabase.bcdc.robojackets.net/api/health
+          do
+            sleep 1
+          done
