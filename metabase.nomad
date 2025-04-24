@@ -54,7 +54,7 @@ EOH
           success_before_passing = 3
           failures_before_critical = 2
 
-          interval = "5s"
+          interval = "1s"
 
           name = "HTTP"
           path = "/api/health"
