@@ -8,6 +8,10 @@
     "automerge": true,
     "platformAutomerge": true,
     "rangeStrategy": "pin",
+    "timezone": "America/New_York",
+    "schedule": [
+        "before 4pm every weekday except before 9am every weekday"
+    ],
     "customManagers": [
         {
             "customType": "regex",
