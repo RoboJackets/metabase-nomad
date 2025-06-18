@@ -16,7 +16,7 @@ job "metabase" {
       consul {}
 
       config {
-        image = "metabase/metabase:v0.55.3.3"
+        image = "metabase/metabase:v0.55.4.1"
 
         force_pull = true
 
